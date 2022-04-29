@@ -44,7 +44,17 @@ jobs:
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: CoreHelpers.Extensions.Logging.${{ steps.get_version.outputs.release_version }}.nupkg
-          asset_name: CoreHelpers.Extensions.Logging.${{ steps.get_version.outputs.release_version }}.nupkg
+          file: ./CoreHelpers.Extensions.Logging.Abstractions/bin/Release/CoreHelpers.Extensions.Logging.Abstractions.${{ steps.get_version.outputs.release_version }}.nupkg
+          asset_name: CoreHelpers.Extensions.Logging.Abstractions.${{ steps.get_version.outputs.release_version }}.nupkg
           tag: ${{ steps.get_version.outputs.release_tag }}
           overwrite: true
+          
+      - name: Upload Nuget Package to release 2
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ./CoreHelpers.Extensions.Logging.AzureFunctions/bin/Release/CoreHelpers.Extensions.Logging.AzureFunctions.${{ steps.get_version.outputs.release_version }}.nupkg
+          asset_name: CoreHelpers.Extensions.Logging.AzureFunctions.${{ steps.get_version.outputs.release_version }}.nupkg
+          tag: ${{ steps.get_version.outputs.release_tag }}
+          overwrite: true
+
