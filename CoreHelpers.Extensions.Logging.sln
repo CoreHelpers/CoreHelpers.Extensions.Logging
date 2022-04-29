@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.810.22
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreHelpers.Extensions.Logging.AzureFunctions", "CoreHelpers.Extensions.Logging.AzureFunctions\CoreHelpers.Extensions.Logging.AzureFunctions.csproj", "{47FE5189-A7EC-45EC-B7A0-65782FA110D0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreHelpers.Extensions.Logging.Abstractions", "CoreHelpers.Extensions.Logging.Abstractions\CoreHelpers.Extensions.Logging.Abstractions.csproj", "{5D9F0A57-F3B4-4D8D-AFC2-1E6084F3D4E4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{47FE5189-A7EC-45EC-B7A0-65782FA110D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47FE5189-A7EC-45EC-B7A0-65782FA110D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47FE5189-A7EC-45EC-B7A0-65782FA110D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47FE5189-A7EC-45EC-B7A0-65782FA110D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D9F0A57-F3B4-4D8D-AFC2-1E6084F3D4E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D9F0A57-F3B4-4D8D-AFC2-1E6084F3D4E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D9F0A57-F3B4-4D8D-AFC2-1E6084F3D4E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D9F0A57-F3B4-4D8D-AFC2-1E6084F3D4E4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {68D376CC-0D00-45F6-B0C0-3724AEFB792D}
+	EndGlobalSection
+EndGlobal
