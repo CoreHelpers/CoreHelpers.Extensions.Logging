@@ -1,0 +1,50 @@
+name: Publish Nuget Package to Release
+
+on:
+  release:
+    types: ["created"]
+    
+jobs:
+  build-nuget:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 3.1.x
+          
+      - name: Get ReleaseVersion from Tag
+        uses: actions/github-script@v5.0.0
+        id: get_version
+        with: 
+          script: |
+            const release_tag = context.ref.substring(10)
+            const release_version = release_tag.replace('v','')
+            core.setOutput('release_tag', release_tag)
+            core.setOutput('release_version', release_version)
+            console.log('Release Tag ' + release_tag)
+            console.log('Release Version ' + release_version)
+      
+      - name: Restore dependencies
+        run: dotnet restore CoreHelpers.Extensions.Logging.sln
+        env: 
+          DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
+      
+      - name: Build .NET Core
+        run: dotnet build --no-restore -c Release CoreHelpers.Extensions.Logging.sln
+        env: 
+          DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
+          
+      - name: Pack Solution
+        run: dotnet pack -c Release /p:Version=${{ steps.get_version.outputs.release_version }} ./CoreHelpers.Extensions.Logging.sln
+        
+      - name: Upload Nuget Package to release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: CoreHelpers.Extensions.Logging.${{ steps.get_version.outputs.release_version }}.nupkg
+          asset_name: CoreHelpers.Extensions.Logging.${{ steps.get_version.outputs.release_version }}.nupkg
+          tag: ${{ steps.get_version.outputs.release_tag }}
+          overwrite: true
