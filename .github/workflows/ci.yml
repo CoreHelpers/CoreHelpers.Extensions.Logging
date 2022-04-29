@@ -12,10 +12,10 @@ jobs:
       with:
         dotnet-version: 3.1.x
     - name: Restore dependencies
-      run: dotnet restore CoreHelpers.Extensions.Logging
+      run: dotnet restore CoreHelpers.Extensions.Logging.sln
       env: 
         DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
     - name: Build .NET Core
-      run: dotnet build --no-restore -c Release CoreHelpers.Extensions.Logging/CoreHelpers.Extensions.Logging.sln
+      run: dotnet build --no-restore -c Release CoreHelpers.Extensions.Logging.sln
       env: 
         DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
