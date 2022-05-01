@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreHelpers.Extensions.Logg
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreHelpers.Extensions.Logging.Abstractions", "CoreHelpers.Extensions.Logging.Abstractions\CoreHelpers.Extensions.Logging.Abstractions.csproj", "{5D9F0A57-F3B4-4D8D-AFC2-1E6084F3D4E4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreHelpers.Extensions.Logging.AzureFunctions.Sandbox", "CoreHelpers.Extensions.Logging.AzureFunctions.Sandbox\CoreHelpers.Extensions.Logging.AzureFunctions.Sandbox.csproj", "{66D31CAF-C43F-4025-9220-B0130DB07795}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{5D9F0A57-F3B4-4D8D-AFC2-1E6084F3D4E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5D9F0A57-F3B4-4D8D-AFC2-1E6084F3D4E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5D9F0A57-F3B4-4D8D-AFC2-1E6084F3D4E4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66D31CAF-C43F-4025-9220-B0130DB07795}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66D31CAF-C43F-4025-9220-B0130DB07795}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66D31CAF-C43F-4025-9220-B0130DB07795}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66D31CAF-C43F-4025-9220-B0130DB07795}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

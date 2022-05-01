@@ -14,6 +14,15 @@ namespace CoreHelpers.Extensions.Logging.AzureFunctions.Loggers
         private ILogAppenderFactory _logAppenderFactory;        
         private string _category;
 
+        private long _maxEpoch = 999999999999;
+
+        private enum nFunctionType
+        {
+            nActivity,
+            nOrchestration,
+            nHost
+        };
+
         public AzureFunctionsLogger(ILogAppenderFactory logAppenderFactory, string category)            
         {            
             _category = category;
@@ -47,10 +56,15 @@ namespace CoreHelpers.Extensions.Logging.AzureFunctions.Loggers
             var stateValues = LoggerScopeStack.GetMergedStateDictionaryOrNull();
 
             // identify the right appender
-            if (stateValues != null && stateValues.ContainsKey(OperationContext))            
-                logAppender = stateValues[OperationContext] as ILogAppender;            
-            else            
-                logAppender = _logAppenderFactory.CreateLogAppender(null);            
+            if (stateValues != null && stateValues.ContainsKey(OperationContext))
+            {
+                logAppender = stateValues[OperationContext] as ILogAppender;
+            }
+            else
+            {
+                var logFileHostsAppender = BuildLogFileName("hosts", nFunctionType.nHost, "Default", Guid.NewGuid().ToString());
+                logAppender = _logAppenderFactory.CreateLogAppender(logFileHostsAppender);
+            }
 
             // write the log
             logAppender.Append<TState>(logLevel, eventId, state, exception, formatter);
@@ -74,14 +88,12 @@ namespace CoreHelpers.Extensions.Logging.AzureFunctions.Loggers
                 eventName == AzureFunctionsLogConstants.FunctionStartEvent &&
                 !stateValues.ContainsKey(OperationContext))
             {
-                // build the logfilename
-                // functions/YYYY/MM/DD/HH/EPOCH.FUNCTIONNAME.INVOCATIONID.log
-                var dateString = DateTime.Now.ToString("yyyy/MM/dd/HH");                
-                var logFileName = $"activities/{dateString}/{functionName}.{functionInvocationId}";
-
-                // check if we need to adapt the logfilename for a durable orchestration task
-                if (!String.IsNullOrEmpty(DurableTaskEventListerner.Instance.LastKnownInstanceId))
-                    logFileName = $"orchestrations/{dateString}/{functionName}.{DurableTaskEventListerner.Instance.LastKnownInstanceId}";
+                // build the logfilename incl. durable task support
+                var logFileName = default(string);
+                if (String.IsNullOrEmpty(DurableTaskEventListerner.Instance.LastKnownInstanceId))
+                    logFileName = BuildLogFileName("functions", nFunctionType.nActivity, functionName, functionInvocationId);
+                else
+                    logFileName = BuildLogFileName("functions", nFunctionType.nOrchestration, functionName, DurableTaskEventListerner.Instance.LastKnownInstanceId);
 
                 // generate the logappender
                 var logAppender = _logAppenderFactory.CreateLogAppender(logFileName);
@@ -110,6 +122,19 @@ namespace CoreHelpers.Extensions.Logging.AzureFunctions.Loggers
             logAppender.Dispose();
 
             DurableTaskEventListerner.Instance.LastKnownInstanceId = String.Empty;
+        }
+
+        private string BuildLogFileName(string logSender, nFunctionType functionType, string functionName, string instanceId)
+        {
+            var dateString = DateTime.Now.ToString("yyyy/MM/dd/HH");
+            var epoch = (_maxEpoch - DateTimeOffset.Now.ToUnixTimeSeconds()).ToString("000000000000");
+
+            if (functionType == nFunctionType.nOrchestration)
+                epoch = "000000000000";
+
+            var functionTypeString = functionType == nFunctionType.nOrchestration ? "orchestrations" : "activities";
+
+            return $"{logSender}/{dateString}/{epoch}/{functionTypeString}/{functionName}.{instanceId}";
         }
     }
 }

@@ -10,15 +10,19 @@ namespace CoreHelpers.Extensions.Logging.AzureFunctions.Appenders
         private string _containerName;
         private int _messageBuffer;
 
-        public AzureBlobAppenderFactory(IConfiguration configuration, string connectionStringName, string containerName, int messageBuffer)
+        public AzureBlobAppenderFactory(IConfiguration configuration, string connectionStringName, string containerName, bool monthlyContainer, int messageBuffer)
         {
             // get connection string from configuration
             var connectionString = configuration.GetConnectionString(connectionStringName);
             if (String.IsNullOrEmpty(connectionString))
                 _connectionString = configuration.GetValue<string>(connectionStringName);
 
-            // assign all other properties
+            // build the containername
             _containerName = containerName;
+            if (monthlyContainer)
+                _containerName = $"{containerName}-{DateTime.Now.ToString("yyyy-MM")}";            
+
+            // assign the buffer size
             _messageBuffer = messageBuffer;
         }
 

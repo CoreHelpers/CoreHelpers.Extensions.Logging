@@ -9,10 +9,10 @@ namespace CoreHelpers.Extensions.Logging.AzureFunctions.LoggerProviders
     {
         private AzureFunctionsLogAppenderFactory _azureFunctionsLogAppenderFactory;
 
-        public AzureFunctionsBlobLoggerProvider(IConfiguration configuration, string connectionStringName, string containerName, int messageBuffer)
+        public AzureFunctionsBlobLoggerProvider(IConfiguration configuration, string connectionStringName, string containerName, bool monthlyContainer, int messageBuffer)
         {
             _azureFunctionsLogAppenderFactory = new AzureFunctionsLogAppenderFactory(
-                new AzureBlobAppenderFactory(configuration, connectionStringName, containerName, messageBuffer)
+                new AzureBlobAppenderFactory(configuration, connectionStringName, containerName, monthlyContainer, messageBuffer)
             );
         }
 

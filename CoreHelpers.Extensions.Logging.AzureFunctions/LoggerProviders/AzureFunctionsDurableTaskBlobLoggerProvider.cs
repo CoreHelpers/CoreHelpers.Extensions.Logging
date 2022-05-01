@@ -5,8 +5,8 @@ namespace CoreHelpers.Extensions.Logging.AzureFunctions.LoggerProviders
 {
     internal class AzureFunctionsDurableTaskBlobLoggerProvider : AzureFunctionsBlobLoggerProvider
     {
-        public AzureFunctionsDurableTaskBlobLoggerProvider(IConfiguration configuration, string connectionStringName, string containerName, int messageBuffer)
-            : base(configuration, connectionStringName, containerName, messageBuffer)
+        public AzureFunctionsDurableTaskBlobLoggerProvider(IConfiguration configuration, string connectionStringName, string containerName, bool monthlyContainer, int messageBuffer)
+            : base(configuration, connectionStringName, containerName, monthlyContainer, messageBuffer)
         {
             DurableTaskEventListerner.Instance.Initialize();
         }
