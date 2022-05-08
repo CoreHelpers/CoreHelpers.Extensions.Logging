@@ -1,4 +1,5 @@
-﻿using CoreHelpers.Extensions.Logging.AzureFunctions.Appenders;
+﻿using System;
+using CoreHelpers.Extensions.Logging.AzureFunctions.Appenders;
 using CoreHelpers.Extensions.Logging.AzureFunctions.Loggers;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -17,7 +18,7 @@ namespace CoreHelpers.Extensions.Logging.AzureFunctions.LoggerProviders
         }
 
         public ILogger CreateLogger(string categoryName)
-        {
+        {            
             return new AzureFunctionsLogger(_azureFunctionsLogAppenderFactory, categoryName);
         }
 

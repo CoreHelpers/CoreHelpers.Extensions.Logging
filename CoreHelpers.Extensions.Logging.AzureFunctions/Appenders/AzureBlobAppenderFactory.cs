@@ -20,7 +20,7 @@ namespace CoreHelpers.Extensions.Logging.AzureFunctions.Appenders
             // build the containername
             _containerName = containerName;
             if (monthlyContainer)
-                _containerName = $"{containerName}-{DateTime.Now.ToString("yyyy-MM")}";            
+                _containerName = AzureBlobAppenderContainerNameBuilder.BuildMonthlyContainerName(_containerName);
 
             // assign the buffer size
             _messageBuffer = messageBuffer;

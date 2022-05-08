@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.DurableTask;
+using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
 
 namespace CoreHelpers.Extensions.Logging.AzureFunctions.Sandbox
@@ -29,6 +31,21 @@ namespace CoreHelpers.Extensions.Logging.AzureFunctions.Sandbox
 
             await Task.WhenAll(parallelTasks);
             return true;
+        }
+
+        [FunctionName("TriggerFanOut")]
+        public static async Task<HttpResponseMessage> HttpStart(
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post")] HttpRequestMessage req,
+            [DurableClient] IDurableOrchestrationClient starter,
+            ILogger log)
+        {
+            log.LogInformation($"C# Timer trigger function executed at: {DateTime.Now}");
+
+            string instanceId = await starter.StartNewAsync("FanOutOrchestrator", null);
+            log.LogInformation($"Started orchestration with ID = '{instanceId}'.");
+
+            // reflect the status
+            return starter.CreateCheckStatusResponse(req, instanceId);
         }
     }
 }

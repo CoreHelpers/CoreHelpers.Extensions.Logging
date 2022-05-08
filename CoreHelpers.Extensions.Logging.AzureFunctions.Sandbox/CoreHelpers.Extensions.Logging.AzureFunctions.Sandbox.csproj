@@ -13,6 +13,7 @@
     <None Remove="Microsoft.Azure.Functions.Extensions" />
     <None Remove="Microsoft.Extensions.DependencyInjection" />
     <None Remove="Microsoft.Azure.WebJobs.Extensions.DurableTask" />
+    <None Remove="Microsoft.Extensions.Logging.Console" />
   </ItemGroup>
   <ItemGroup>
     <None Update="host.json">

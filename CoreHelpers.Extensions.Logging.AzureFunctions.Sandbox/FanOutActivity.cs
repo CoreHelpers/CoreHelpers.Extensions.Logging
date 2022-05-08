@@ -10,7 +10,7 @@ namespace CoreHelpers.Extensions.Logging.AzureFunctions.Sandbox
     public static class FanOutActivity
     {
         [FunctionName("FanOutActivity")]
-        public static async Task Activity([ActivityTrigger] ILogger log)
+        public static async Task<bool> Activity([ActivityTrigger] ILogger log)
         {
             log.LogInformation("Executing the FanOutActivity");
 
@@ -18,6 +18,7 @@ namespace CoreHelpers.Extensions.Logging.AzureFunctions.Sandbox
                 log.LogInformation($"Log-Item #{i}");
 
             await Task.CompletedTask;
+            return true;
         }
     }
 }
