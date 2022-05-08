@@ -25,24 +25,8 @@ namespace CoreHelpers.Extensions.Logging.AzureFunctions.Sandbox
             // add support for garbage collectors 
             builder.Services.AddLoggingGarbageCollectors();
 
-            // Replace ILogger<T> with the one that works fine in all scenarios 
-            var logger = builder.Services.FirstOrDefault(s => s.ServiceType == typeof(ILogger<>));
-            if (logger != null)
-                builder.Services.Remove(logger);
-
-            builder.Services.Add(new ServiceDescriptor(typeof(ILogger<>), typeof(FunctionsLogger<>), ServiceLifetime.Transient));
-        }
-        
-        class FunctionsLogger<T> : ILogger<T>
-        {
-            readonly ILogger logger;
-            public FunctionsLogger(ILoggerFactory factory)
-                // See https://github.com/Azure/azure-functions-host/issues/4689#issuecomment-533195224
-                => logger = factory.CreateLogger(LogCategories.CreateFunctionUserCategory(typeof(T).FullName));
-            public IDisposable BeginScope<TState>(TState state) => logger.BeginScope(state);
-            public bool IsEnabled(LogLevel logLevel) => logger.IsEnabled(logLevel);
-            public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception, Func<TState, Exception?, string> formatter)
-                => logger.Log(logLevel, eventId, state, exception, formatter);
-        }
+            // ensure we route all to the right logfile
+            builder.Services.DisableExternalLoggerFunctionsFilter(true);
+        }               
     }
 }
